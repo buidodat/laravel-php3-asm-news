@@ -37,7 +37,7 @@ class PostController extends Controller
         $postRecents = Post::query()
             ->with('author')
             ->orderByDesc('id')
-            ->get();
+            ->paginate(5);
 
         $categories = DB::table('categories')
             ->selectRaw('categories.id, categories.name, count(category_id) as total_post')
