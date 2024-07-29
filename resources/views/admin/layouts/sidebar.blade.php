@@ -45,7 +45,7 @@
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarLayouts" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebarLayouts">
-                        <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Danh mục bài viết</span>
+                        <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Quản lý danh mục</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarLayouts">
                         <ul class="nav nav-sm flex-column">
@@ -61,7 +61,28 @@
                             </li>
                         </ul>
                     </div>
-                </li> <!-- end Dashboard Menu -->
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebarLayouts-2" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="sidebarLayouts-2">
+                        <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Quản lý bài viết</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="sidebarLayouts-2">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="{{ route('admin.posts.index') }}"  class="nav-link"
+                                    data-key="t-horizontal">Danh sách</a>
+                            </li>
+                        </ul>
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="{{ route('admin.categories.create') }}"  class="nav-link"
+                                    data-key="t-horizontal">Thêm mới</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
 
 
             </ul>

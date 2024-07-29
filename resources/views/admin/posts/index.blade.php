@@ -55,7 +55,6 @@
                             <tr>
                                 <th>#</th>
                                 <th>Danh mục bài viết</th>
-                                <th>Đường dẫn</th>
                                 <th>Hình ảnh</th>
                                 <th>Trạng thái</th>
                                 <th>Ngày tạo</th>
@@ -69,7 +68,6 @@
                                 <tr>
                                     <td>{{ $category->id }}</td>
                                     <td>{{ $category->name }}</td>
-                                    <td>{{ $category->slug }}</td>
                                     <td>
                                         @if ($category->image && \Storage::exists($category->image))
                                             <img src="{{ Storage::url($category->image) }}" alt="" width="50px">
@@ -78,30 +76,20 @@
                                         @endif
 
                                     </td>
-                                    <td>{!! $category->is_active ? '<span class="badge bg-primary">Đang hoạt động</span>' : '<span class="badge bg-danger">Không hoạt động</span>' !!}</td>
-                                    <td>{{ $category->created_at->format('H:i, d/m/Y') }}</td>
-                                    <td>{{ $category->updated_at->format('H:i, d/m/Y') }}</td>
+                                    <td>{!! $category->is_active ? '<span class="badge bg-primary">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
+                                    <td>{{ $category->created_at }}</td>
+                                    <td>{{ $category->updated_at }}</td>
                                     <td>
-                                        <div class="d-flex">
-                                            <div class='mx-1'>
-                                                <a href="{{ route('admin.categories.show', $category->id) }}">
-                                                    <button title="xem" class="btn btn-success btn-sm " type="button" ><i class="fas fa-eye"></i></button></a>
-                                            </div>
-                                            <div class='mx-1'>
-                                                <a href="{{ route('admin.categories.edit', $category->id) }}">
-                                                    <button title="xem" class="btn btn-warning btn-sm " type="button" ><i class="fas fa-edit"></i></button>
-                                                </a>
-                                            </div >
-                                            <form action="{{ route('admin.categories.destroy', $category->id) }}" method="POST" class='mx-1'>
-                                                @method("DELETE")
-                                                @csrf
-                                                <button type="submit" class="btn btn-danger btn-sm "><i class="fas fa-trash-alt"></i></button>
-                                            </form>
-                                        </div>
+                                        <a href="{{ route('admin.categories.show', $category->id) }}"
+                                            class="btn btn-info mb-3">Xem </a>
+                                        <a href="{{ route('admin.categories.edit', $category->id) }}"
+                                            class="btn btn-warning mb-3">Sửa </a>
 
-
-
-
+                                        <form action="{{ route('admin.categories.destroy', $category->id) }}" method="POST">
+                                            @method("DELETE")
+                                            @csrf
+                                            <button type="submit" class="btn btn-danger">Xóa</button>
+                                        </form>
                                     </td>
                                 </tr>
                                 @endforeach
