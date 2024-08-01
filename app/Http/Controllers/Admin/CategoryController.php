@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreCategoryRequest;
 use App\Http\Requests\Admin\UpdateCategoryRequest;
 use App\Models\Category;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -18,7 +20,7 @@ class CategoryController extends Controller
     const ROOT_PATH = "admin.categories.";
     public function index()
     {
-        $categories = Category::latest('id')->paginate(10);
+        $categories = Category::all();
         return view(self::ROOT_PATH . __FUNCTION__ , compact('categories'));
     }
 
@@ -35,20 +37,29 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        $data = $request->except('image');
+        try {
+            DB::transaction(function() use ($request) {
+                $data = $request->except('image');
 
-        $data['is_active'] = isset($data['is_active']) ? 1: 0 ;
+                $data['is_active'] = isset($data['is_active']) ? 1: 0 ;
 
-        $data['slug'] =  Str::slug($data['name']);
+                $data['slug'] =  Str::slug($data['name']);
 
-        if($request->hasFile('image')){
-            $data['image'] = Storage::put('categories', $request->file('image'));
-        }
+                if($request->hasFile('image')){
+                    $data['image'] = Storage::put('categories', $request->file('image'));
+                }
 
-        Category::create($data);
+                Category::create($data);
 
-        return redirect()->route('admin.categories.index')
+            },3);
+
+            return redirect()->route('admin.categories.index')
             ->with("success", "Thao tác thành công !");
+
+        } catch (Exception $exception) {
+            return back()
+                ->with('error', $exception->getMessage());
+        }
     }
 
     /**
@@ -72,24 +83,32 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        $data = $request->except('image');
+        try {
+            DB::transaction(function() use ($request, $category) {
+                $data = $request->except('image');
 
-        $data['is_active'] = isset($data['is_active']) ? 1: 0 ;
+                $data['is_active'] = isset($data['is_active']) ? 1: 0 ;
 
-        if($request->hasFile('image')){
-            $data['image'] = Storage::put('categories', $request->file('image'));
-            if($category->image && Storage::exists($category->image)){
-                Storage::delete($category->image);
-            }
-        }
+                if($request->hasFile('image')){
+                    $data['image'] = Storage::put('categories', $request->file('image'));
+                    if($category->image && Storage::exists($category->image)){
+                        Storage::delete($category->image);
+                    }
+                }
 
-        $data['slug'] = Str::slug($data['name']);
+                $data['slug'] = Str::slug($data['name']);
 
-        $category->update($data);
+                $category->update($data);
 
-        return back()
+            },3);
+
+            return back()
             ->with("success", "Thao tác thành công !");
 
+        } catch (Exception $exception) {
+            return back()
+                ->with('error', $exception->getMessage());
+        }
     }
 
     /**
@@ -97,7 +116,19 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        $category->delete();
-        return back()->with('success', 'Thao tác thành công!');
+        try {
+            DB::transaction(function() use ( $category) {
+                $category->delete();
+
+            },3);
+
+            return back()->with('success', 'Thao tác thành công!');
+
+        } catch (Exception $exception) {
+            return back()
+                ->with('error', $exception->getMessage());
+        }
+
+
     }
 }

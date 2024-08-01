@@ -18,35 +18,36 @@
                     <h2 class="h5 section-title">Tin nóng </h2>
                     <article class="card">
                         <div class="post-slider slider-sm">
-                            <img src="{{  $postHot->image }}"
+                            <img src="{{  Storage::url($postHot->image) }}"
                                 class="card-img-top" alt="post-thumb" style="height:235px; object-fit: cover;">
                         </div>
 
                         <div class="card-body">
-                            <h3 class="h4 mb-3"><a class="post-title" href="{{ route('client.post', $postHot->id)  }}">{{ $postHot->title }}</a></h3>
+                            <h3 class="h4 mb-3"><a class="post-title" href="{{ route('client.post', [$postHot->category->slug, $postHot->slug])  }}">{{ $postHot->title }}</a></h3>
                             <ul class="card-meta list-inline">
                                 <li class="list-inline-item">
                                     <a href="" class="card-meta-author">
-                                        <img src="{{ env('APP_URL') . '/theme/clients/' }}images/john-doe.jpg">
+                                        <img src="{{ $postHot->author->image }}">
                                         <span>{{ $postHot->author->name }}</span>
                                     </a>
                                 </li>
-                                {{-- <li class="list-inline-item">
-                                    <i class="ti-timer"></i>2 Min To Read
-                                </li> --}}
                                 <li class="list-inline-item">
                                     <i class="ti-calendar"></i>{{ $postHot->created_at->format('d/m/Y') }}
                                 </li>
-                                {{-- <li class="list-inline-item">
+                                <li class="list-inline-item">
+                                    <i class="ti-eye"></i>{{ $postHot->views }}
+                                </li>
+                                <li class="list-inline-item">
                                     <ul class="card-meta-tag list-inline">
-                                        <li class="list-inline-item"><a href="tags.html">Color</a></li>
-                                        <li class="list-inline-item"><a href="tags.html">Recipe</a></li>
-                                        <li class="list-inline-item"><a href="tags.html">Fish</a></li>
+                                        @foreach ($postHot->tags as $tag)
+                                            <li class="list-inline-item"><a>{{ $tag->name }}</a></li>
+                                        @endforeach
+
                                     </ul>
-                                </li> --}}
+                                </li>
                             </ul>
-                            <p>{{ Str::limit($postHot->content, 100) }}</p>
-                            <a href="{{ route('client.post', $postHot->id)  }}" class="btn btn-outline-primary">Đọc thêm</a>
+                            <p>{!! Str::limit($postHot->description, 100) !!}</p>
+                            <a href="{{ route('client.post',[ $postHot->category->slug, $postHot->slug])  }}" class="btn btn-outline-primary">Đọc thêm</a>
                         </div>
                     </article>
                 </div>
@@ -58,17 +59,17 @@
                         <article class="card mb-4">
                             <div class="card-body d-flex">
                                 <img class="card-img-sm"
-                                    src="{{  $item->image }}">
+                                    src="{{  Storage::url($item->image) }}">
                                 <div class="ml-3">
-                                    <h4><a href="{{ route('client.post', $item->id)  }}" class="post-title">{{ $item->title }}</a>
+                                    <h4><a href="{{ route('client.post', [$item->category->slug, $item->slug])  }}" class="post-title">{{ $item->title }}</a>
                                     </h4>
                                     <ul class="card-meta list-inline mb-0">
                                         <li class="list-inline-item mb-0">
                                             <i class="ti-calendar"></i>{{ $item->created_at->format('d/m/Y') }}
                                         </li>
-                                        {{-- <li class="list-inline-item mb-0">
-                                            <i class="ti-timer"></i>2 Min To Read
-                                        </li> --}}
+                                        <li class="list-inline-item mb-0">
+                                            <i class="ti-eye"></i>{{  $item->views }}
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -84,35 +85,34 @@
 
                     <article class="card">
                         <div class="post-slider slider-sm">
-                            <img src="{{  $postPopular->image }}"
+                            <img src="{{  Storage::url($postPopular->image) }}"
                                 class="card-img-top" alt="post-thumb" style="height:235px; object-fit: cover;">
                         </div>
                         <div class="card-body">
-                            <h3 class="h4 mb-3"><a class="post-title" href="{{ route('client.post', $postPopular->id)  }}">{{ $postPopular->title }}</a></h3>
+                            <h3 class="h4 mb-3"><a class="post-title" href="{{ route('client.post', [$postPopular->category->slug, $postPopular->slug])  }}">{{ $postPopular->title }}</a></h3>
                             <ul class="card-meta list-inline">
                                 <li class="list-inline-item">
                                     <a href="author-single.html" class="card-meta-author">
-                                        <img src="{{ env('APP_URL') . '/theme/clients/' }}images/kate-stone.jpg"
-                                            alt="Kate Stone">
+                                        <img src="{{ $postPopular->author->image }}">
                                         <span>{{ $postPopular->author->name }}</span>
                                     </a>
                                 </li>
-                                {{-- <li class="list-inline-item">
-                                    <i class="ti-timer"></i>2 Min To Read
-                                </li> --}}
                                 <li class="list-inline-item">
                                     <i class="ti-calendar"></i>{{ $postPopular->created_at->format('d/m/Y') }}
                                 </li>
-                                {{-- <li class="list-inline-item">
+                                <li class="list-inline-item">
+                                    <i class="ti-eye"></i>{{  $postPopular->views }}
+                                </li>
+                                <li class="list-inline-item">
                                     <ul class="card-meta-tag list-inline">
-                                        <li class="list-inline-item"><a href="tags.html">City</a></li>
-                                        <li class="list-inline-item"><a href="tags.html">Food</a></li>
-                                        <li class="list-inline-item"><a href="tags.html">Taste</a></li>
+                                        @foreach ($postPopular->tags as $tag)
+                                            <li class="list-inline-item"><a>{{ $tag->name }}</a></li>
+                                        @endforeach
                                     </ul>
-                                </li> --}}
+                                </li>
                             </ul>
-                            <p>{{ Str::limit($postPopular->content, 100) }}</p>
-                            <a href="{{ route('client.post', $postPopular->id)  }}" class="btn btn-outline-primary">Đọc thêm</a>
+                            <p>{{ Str::limit($postPopular->description, 100) }}</p>
+                            <a href="{{ route('client.post', [$postPopular->category->slug, $postPopular->slug])  }}" class="btn btn-outline-primary">Đọc thêm</a>
                         </div>
                     </article>
                 </div>
@@ -136,35 +136,36 @@
                             <div class="row card-body">
                                 <div class="col-md-4 mb-4 mb-md-0">
                                     <div class="post-slider slider-sm">
-                                        <img src="{{  $post->image }} "
+                                        <img src="{{  Storage::url($post->image) }} "
                                             class="card-img" alt="post-thumb" style="height:200px; object-fit: cover;">
                                     </div>
                                 </div>
                                 <div class="col-md-8">
-                                    <h3 class="h4 mb-3"><a class="post-title" href="{{ route('client.post', $post->id)  }}">{{ $post->title }}</a></h3>
+                                    <h3 class="h4 mb-3"><a class="post-title" href="{{ route('client.post', [$post->category->slug, $post->slug])  }}">{{ $post->title }}</a></h3>
                                     <ul class="card-meta list-inline">
                                         <li class="list-inline-item">
-                                            <a href="author-single.html" class="card-meta-author">
-                                                <img src="{{ env('APP_URL') . '/theme/clients/' }}images/john-doe.jpg"
+                                            <a href="" class="card-meta-author">
+                                                <img src="{{ $post->author->image  }}"
                                                     alt="John Doe">
                                                 <span>{{ $post->author->name }}</span>
                                             </a>
                                         </li>
-                                        {{-- <li class="list-inline-item">
-                                            <i class="ti-timer"></i>3 Min To Read
-                                        </li> --}}
                                         <li class="list-inline-item">
                                             <i class="ti-calendar"></i>{{ $post->created_at->format('d/m/Y') }}
                                         </li>
-                                        {{-- <li class="list-inline-item">
+                                        <li class="list-inline-item">
+                                            <i class="ti-eye"></i>{{  $post->views }}
+                                        </li>
+                                        <li class="list-inline-item">
                                             <ul class="card-meta-tag list-inline">
-                                                <li class="list-inline-item"><a href="tags.html">Demo</a></li>
-                                                <li class="list-inline-item"><a href="tags.html">Elements</a></li>
+                                                @foreach ($post->tags as $tag)
+                                                    <li class="list-inline-item"><a>{{ $tag->name }}</a></li>
+                                                @endforeach
                                             </ul>
-                                        </li> --}}
+                                        </li>
                                     </ul>
-                                    <p>{{ Str::limit($post->content, 100) }}</p>
-                                    <a href="{{ route('client.post', $post->id)  }}" class="btn btn-outline-primary">Đọc thêm</a>
+                                    <p>{!! Str::limit($post->description, 100) !!}</p>
+                                    <a href="{{ route('client.post',[ $post->category->slug, $post->slug])  }}" class="btn btn-outline-primary">Đọc thêm</a>
                                 </div>
                             </div>
                         </article>
@@ -172,7 +173,7 @@
                     {{ $postRecents->links() }}
 
 
-                   
+
                 </div>
                 {{-- End Tin tức gần đây--}}
                 <aside class="col-lg-4 @@sidebar">
@@ -187,78 +188,22 @@
                             <button type="submit" class="btn btn-primary btn-block">Tìm kiếm</button>
                         </form>
                     </div>
-
-                    {{-- <!-- about me -->
-                    <div class="widget widget-about">
-                        <h4 class="widget-title">Hi, I am Alex!</h4>
-                        <img class="img-fluid" src="{{ env('APP_URL') . '/theme/clients/' }}images/author.jpg"
-                            alt="Themefisher">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vel in in donec iaculis tempus odio
-                            nunc laoreet . Libero ullamcorper.</p>
-                        <ul class="list-inline social-icons mb-3">
-
-                            <li class="list-inline-item"><a href="#"><i class="ti-facebook"></i></a></li>
-
-                            <li class="list-inline-item"><a href="#"><i class="ti-twitter-alt"></i></a></li>
-
-                            <li class="list-inline-item"><a href="#"><i class="ti-linkedin"></i></a></li>
-
-                            <li class="list-inline-item"><a href="#"><i class="ti-github"></i></a></li>
-
-                            <li class="list-inline-item"><a href="#"><i class="ti-youtube"></i></a></li>
-
-                        </ul>
-                        <a href="about-me.html" class="btn btn-primary mb-2">About me</a>
-                    </div>
-
-                    <!-- Promotion -->
-                    <div class="promotion">
-                        <img src="{{ env('APP_URL') . '/theme/clients/' }}images/promotion.jpg"
-                            class="img-fluid w-100">
-                        <div class="promotion-content">
-                            <h5 class="text-white mb-3">Create Stunning Website!!</h5>
-                            <p class="text-white mb-4">Lorem ipsum dolor sit amet, consectetur sociis. Etiam nunc amet
-                                id dignissim. Feugiat id tempor vel sit ornare turpis posuere.</p>
-                            <a href="https://themefisher.com/" class="btn btn-primary">Get Started</a>
-                        </div>
-                    </div> --}}
-
                     <!-- authors -->
-                    {{-- <div class="widget widget-author">
+                    <div class="widget widget-author">
                         <h4 class="widget-title">Tác giả</h4>
-                        <div class="media align-items-center">
-                            <div class="mr-3">
-                                <img class="widget-author-image"
-                                    src="{{ env('APP_URL') . '/theme/clients/' }}images/john-doe.jpg">
+                        @foreach ($authors as $author )
+                            <div class="media align-items-center">
+                                <div class="mr-3">
+                                    <img class="widget-author-image"
+                                        src="{{ $author->image }}">
+                                </div>
+                                <div class="media-body">
+                                    <h5 class="mb-1"><a class="post-title" href="">{{ $author->name }}</a></h5>
+                                    <span>{{ $author->introduce }}</span>
+                                </div>
                             </div>
-                            <div class="media-body">
-                                <h5 class="mb-1"><a class="post-title" href="author-single.html">Charls Xaviar</a>
-                                </h5>
-                                <span>Author &amp; developer of Bexer, Biztrox theme</span>
-                            </div>
-                        </div>
-                        <div class="media align-items-center">
-                            <div class="mr-3">
-                                <img class="widget-author-image"
-                                    src="{{ env('APP_URL') . '/theme/clients/' }}images/kate-stone.jpg">
-                            </div>
-                            <div class="media-body">
-                                <h5 class="mb-1"><a class="post-title" href="author-single.html">Kate Stone</a>
-                                </h5>
-                                <span>Author &amp; developer of Bexer, Biztrox theme</span>
-                            </div>
-                        </div>
-                        <div class="media align-items-center">
-                            <div class="mr-3">
-                                <img class="widget-author-image"
-                                    src="{{ env('APP_URL') . '/theme/clients/' }}images/john-doe.jpg" alt="John Doe">
-                            </div>
-                            <div class="media-body">
-                                <h5 class="mb-1"><a class="post-title" href="author-single.html">John Doe</a></h5>
-                                <span>Author &amp; developer of Bexer, Biztrox theme</span>
-                            </div>
-                        </div>
-                    </div> --}}
+                        @endforeach
+                    </div>
 
 
                     <!-- categories -->
@@ -266,90 +211,16 @@
                         <h4 class="widget-title"><span>Danh mục bài viết</span></h4>
                         <ul class="list-unstyled widget-list">
                             @foreach ( $categories as $ct )
-                                <li><a href="{{ route('client.category.posts',$ct->id) }}" class="d-flex">{{ $ct->name }} <small class="ml-auto">({{ $ct->total_post }})</small></a>
+                                <li><a href="{{ route('client.category.posts',$ct->slug) }}" class="d-flex">{{ $ct->name }} <small class="ml-auto">({{ $ct->total_post }})</small></a>
                                 </li>
                             @endforeach
 
                         </ul>
-                    </div><!-- tags -->
-                    {{-- <div class="widget">
-                        <h4 class="widget-title"><span>Tags</span></h4>
-                        <ul class="list-inline widget-list-inline widget-card">
-                            <li class="list-inline-item"><a href="tags.html">City</a></li>
-                            <li class="list-inline-item"><a href="tags.html">Color</a></li>
-                            <li class="list-inline-item"><a href="tags.html">Creative</a></li>
-                            <li class="list-inline-item"><a href="tags.html">Decorate</a></li>
-                            <li class="list-inline-item"><a href="tags.html">Demo</a></li>
-                            <li class="list-inline-item"><a href="tags.html">Elements</a></li>
-                            <li class="list-inline-item"><a href="tags.html">Fish</a></li>
-                            <li class="list-inline-item"><a href="tags.html">Food</a></li>
-                            <li class="list-inline-item"><a href="tags.html">Nice</a></li>
-                            <li class="list-inline-item"><a href="tags.html">Recipe</a></li>
-                            <li class="list-inline-item"><a href="tags.html">Season</a></li>
-                            <li class="list-inline-item"><a href="tags.html">Taste</a></li>
-                            <li class="list-inline-item"><a href="tags.html">Tasty</a></li>
-                            <li class="list-inline-item"><a href="tags.html">Vlog</a></li>
-                            <li class="list-inline-item"><a href="tags.html">Wow</a></li>
-                        </ul>
-                    </div><!-- recent post --> --}}
-                    {{-- <div class="widget">
-                        <h4 class="widget-title">Recent Post</h4>
-
-                        <!-- post-item -->
-                        <article class="widget-card">
-                            <div class="d-flex">
-                                <img class="card-img-sm"
-                                    src="{{ env('APP_URL') . '/theme/clients/' }}images/post/post-10.jpg">
-                                <div class="ml-3">
-                                    <h5><a class="post-title" href="post/elements/">Elements That You Can Use In This
-                                            Template.</a></h5>
-                                    <ul class="card-meta list-inline mb-0">
-                                        <li class="list-inline-item mb-0">
-                                            <i class="ti-calendar"></i>15 jan, 2020
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </article>
-
-                        <article class="widget-card">
-                            <div class="d-flex">
-                                <img class="card-img-sm"
-                                    src="{{ env('APP_URL') . '/theme/clients/' }}images/post/post-3.jpg">
-                                <div class="ml-3">
-                                    <h5><a class="post-title" href="post-details.html">Advice From a Twenty
-                                            Something</a></h5>
-                                    <ul class="card-meta list-inline mb-0">
-                                        <li class="list-inline-item mb-0">
-                                            <i class="ti-calendar"></i>14 jan, 2020
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </article>
-
-                        <article class="widget-card">
-                            <div class="d-flex">
-                                <img class="card-img-sm"
-                                    src="{{ env('APP_URL') . '/theme/clients/' }}images/post/post-7.jpg">
-                                <div class="ml-3">
-                                    <h5><a class="post-title" href="post-details.html">Advice From a Twenty
-                                            Something</a></h5>
-                                    <ul class="card-meta list-inline mb-0">
-                                        <li class="list-inline-item mb-0">
-                                            <i class="ti-calendar"></i>14 jan, 2020
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </article>
-                    </div> --}}
-
-                    <!-- Never Miss A New -->
+                    </div>
 
                     <div class="widget">
                         <h4 class="widget-title"><span>Nhận thông báo bài viết mới</span></h4>
-                        <form action="#!" method="post" name="mc-embedded-subscribe-form" target="_blank"
+                        <form action="#"  name="mc-embedded-subscribe-form"
                             class="widget-search">
                             <input class="mb-3" id="search-query" name="s" type="search"
                                 placeholder="Your Email Address">

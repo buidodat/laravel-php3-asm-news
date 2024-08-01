@@ -131,7 +131,7 @@
     <script src="{{ asset('theme/admin/assets/js/pages/dashboard-ecommerce.init.js') }}"></script>
 
     @yield('script-libs')
-    
+
 
     <!-- App js -->
     <script src="{{ asset('theme/admin/assets/js/app.js') }}"></script>

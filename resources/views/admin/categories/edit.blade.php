@@ -37,6 +37,11 @@
                         {{ session()->get('success') }}
                     </div>
                     @endif
+                    @if (session()->has('error'))
+                    <div class="alert danger-success m-3">
+                        {{ session()->get('error') }}
+                    </div>
+                    @endif
                     <div class="card-body">
                         <div class="live-preview">
                             <div class="row gy-4">
@@ -55,6 +60,9 @@
 
                                         @endif
                                         <img src="{{ Storage::url("$category->image") }}" alt="" width="50">
+                                        @error("image")
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-check-label" for="is_hot_deal">Is Active</label>

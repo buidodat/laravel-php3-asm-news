@@ -39,8 +39,8 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
-                    <h5 class="card-title mb-0">Danh mục sản phẩm </h5>
-                    <a href="{{ route('admin.categories.create') }}" class="btn btn-success mb-3 ">Thêm mới</a>
+                    <h5 class="card-title mb-0">Quản lý bà viết</h5>
+                    <a href="{{ route('admin.posts.create') }}" class="btn btn-success mb-3 ">Thêm mới</a>
                 </div>
                     @if (session()->has('success'))
                     <div class="alert alert-success m-3">
@@ -54,42 +54,72 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Danh mục bài viết</th>
+                                <th>Tiêu đề</th>
                                 <th>Hình ảnh</th>
-                                <th>Trạng thái</th>
-                                <th>Ngày tạo</th>
-                                <th>Ngày cập nhật</th>
+                                <th>Danh mục </th>
+                                <th>Tác giả</th>
+                                <th>Lượt xem</th>
+                                <th>Is active</th>
+                                <th>Is popular</th>
+                                <th>Is hot</th>
+                                <th>Slug</th>
+                                <th>Tags</th>
+                                <th>Created At</th>
+                                <th>Updated At</th>
                                 <th>Chức năng</th>
                             </tr>
                         </thead>
-
                             <tbody>
-                                @foreach ($categories as $category)
+                                @foreach ($posts as $post)
                                 <tr>
-                                    <td>{{ $category->id }}</td>
-                                    <td>{{ $category->name }}</td>
+                                    <td>{{ $post->id }}</td>
+                                    <td style="!implement width: 5%">{{ $post->title }}</td>
                                     <td>
-                                        @if ($category->image && \Storage::exists($category->image))
-                                            <img src="{{ Storage::url($category->image) }}" alt="" width="50px">
+                                        {{-- @if ($post->image && \Storage::exists($post->image))
+                                            <img src="{{ Storage::url($post->image) }}" alt="" width="50px">
+                                        @else
+                                            No image !
+                                        @endif --}}
+
+                                        @php
+                                            $url = $post->image;
+
+                                            if (!\Str::contains($url, 'http')) {
+                                                $url = Storage::url($url);
+                                            }
+
+                                        @endphp
+                                        @if(!empty($post->image))
+                                            <img src="{{ $url }}" alt="" width="100px">
                                         @else
                                             No image !
                                         @endif
 
                                     </td>
-                                    <td>{!! $category->is_active ? '<span class="badge bg-primary">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
-                                    <td>{{ $category->created_at }}</td>
-                                    <td>{{ $category->updated_at }}</td>
+                                    <td>{{ $post->category->name }}</td>
+                                    <td>{{ $post->author->name }}</td>
+                                    <td>{{ $post->views }}</td>
+                                    <td>{!! $post->is_active ? '<span class="badge bg-primary">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
+                                    <td>{!! $post->is_popular? '<span class="badge bg-primary">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
+                                    <td>{!! $post->is_hot_post ? '<span class="badge bg-primary">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
+                                    <td>{{ $post->slug }}</td>
                                     <td>
-                                        <a href="{{ route('admin.categories.show', $category->id) }}"
-                                            class="btn btn-info mb-3">Xem </a>
-                                        <a href="{{ route('admin.categories.edit', $category->id) }}"
-                                            class="btn btn-warning mb-3">Sửa </a>
+                                        @foreach($post->tags as $tag)
+                                            <span class="badge bg-info">{{ $tag->name }}</span>
+                                        @endforeach
+                                    </td>
+                                    <td>{{ $post->created_at }}</td>
+                                    <td>{{ $post->updated_at }}</td>
+                                    <td>
 
-                                        <form action="{{ route('admin.categories.destroy', $category->id) }}" method="POST">
-                                            @method("DELETE")
-                                            @csrf
-                                            <button type="submit" class="btn btn-danger">Xóa</button>
-                                        </form>
+
+                                                <a href="{{ route('admin.posts.show', $post->id) }}">
+                                                    <button title="xem" class="btn btn-success btn-sm " type="button" ><i class="fas fa-eye"></i></button></a>
+
+                                                <a href="{{ route('admin.posts.edit', $post->id) }}">
+                                                    <button title="xem" class="btn btn-warning btn-sm " type="button" ><i class="fas fa-edit"></i></button>
+                                                </a>
+
                                     </td>
                                 </tr>
                                 @endforeach
@@ -118,6 +148,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
     <script>
-        new DataTable("#example");
+        new DataTable("#example", {
+            order: [ [0, 'desc'] ] }
+        );
     </script>
 @endsection

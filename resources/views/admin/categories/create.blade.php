@@ -32,6 +32,16 @@
                         <h4 class="card-title mb-0 flex-grow-1">Thông tin danh mục</h4>
 
                     </div><!-- end card header -->
+                    @if (session()->has('success'))
+                    <div class="alert alert-success m-3">
+                        {{ session()->get('success') }}
+                    </div>
+                    @endif
+                    @if (session()->has('error'))
+                    <div class="alert danger-success m-3">
+                        {{ session()->get('error') }}
+                    </div>
+                    @endif
                     <div class="card-body">
                         <div class="live-preview">
                             <div class="row gy-4">
@@ -46,6 +56,9 @@
                                     <div class="mb-3">
                                         <label for="image" class="form-label">Hình ảnh</label>
                                         <input type="file" class="form-control" id="image" name="image">
+                                        @error("image")
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-check-label" for="is_hot_deal">Is Active</label>

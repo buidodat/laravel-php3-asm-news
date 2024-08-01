@@ -21,7 +21,7 @@
                     </li>
                     @foreach ( $categories as $item )
                         <li class="nav-item dropdown">
-                            <a class="nav-link" href="{{ route('client.category.posts', $item->id) }}" >
+                            <a class="nav-link" href="{{ route('client.category.posts', $item->slug) }}" >
                                 {{ $item->name }}
                             </a>
                         </li>

@@ -47,6 +47,11 @@
                         {{ session()->get('success') }}
                     </div>
                     @endif
+                    @if (session()->has('error'))
+                    <div class="alert alert-danger m-3">
+                        {{ session()->get('error') }}
+                    </div>
+                    @endif
 
                 <div class="card-body">
                     <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle"
@@ -95,7 +100,7 @@
                                             <form action="{{ route('admin.categories.destroy', $category->id) }}" method="POST" class='mx-1'>
                                                 @method("DELETE")
                                                 @csrf
-                                                <button type="submit" class="btn btn-danger btn-sm "><i class="fas fa-trash-alt"></i></button>
+                                                <button type="submit" class="btn btn-danger btn-sm " onclick="return confirm('Bạn có muốn xóa ?')"><i class="fas fa-trash-alt"></i></button>
                                             </form>
                                         </div>
 

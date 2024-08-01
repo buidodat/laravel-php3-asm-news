@@ -15,9 +15,10 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->unique();
             $table->foreignIdFor(Category::class)->constrained();
             $table->foreignIdFor(Author::class)->constrained();
+            $table->string('title')->unique();
+            $table->string('slug')->unique();
             $table->text('content');
             $table->string('image')->nullable();
             $table->unsignedBigInteger('views')->default(0);

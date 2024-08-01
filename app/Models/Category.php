@@ -18,4 +18,7 @@ class Category extends Model
     protected $casts = [
         'is_active' => 'boolean'
     ];
+    public function posts(){
+        return $this->hasMany(Post::class);
+    }
 }
