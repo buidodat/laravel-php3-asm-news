@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -25,7 +27,15 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected function redirectTo()
+    {
+        // Logic tùy chỉnh của bạn để xác định đường dẫn chuyển hướng
+        if (Auth::user()->type === User::TYPE_ADMIN) {
+            return '/admin';
+        }
+
+        return '/';
+    }
 
     /**
      * Create a new controller instance.

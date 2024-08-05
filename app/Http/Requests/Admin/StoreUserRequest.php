@@ -2,10 +2,11 @@
 
 namespace App\Http\Requests\Admin;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\ValidationException;
 
-
-class StoreCategoryRequest extends FormRequest
+class StoreUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,6 +15,7 @@ class StoreCategoryRequest extends FormRequest
     {
         return true;
     }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -22,14 +24,13 @@ class StoreCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=> 'required|unique:categories,name',
-            'image'=>'nullable|image|max:2048'
+            'name' => 'required|string|max:30',
+            'email'=>'required|email|unique:users,email',
+            'image'=>'nullable|image|max:2048',
+            'password'=>'required|string|min:6|confirmed'
         ];
     }
 
-    public function attributes() {
-        return [
 
-        ];
-    }
+
 }

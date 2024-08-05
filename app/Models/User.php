@@ -21,6 +21,7 @@ class User extends Authenticatable
     const TYPE_MEMBER = 'member';
     protected $fillable = [
         'name',
+        'image',
         'email',
         'password',
         'type'

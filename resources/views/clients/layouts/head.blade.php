@@ -21,9 +21,12 @@
     <link rel="shortcut icon" href="{{ env('APP_URL') . '/theme/clients/images/favicon.png' }}" type="image/x-icon">
     <link rel="icon" href="{{ env('APP_URL') . '/theme/clients/images/favicon.png' }}" type="image/x-icon">
 
+<!-- Option 1: Include in HTML -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <meta property="og:title" content="Reader | Hugo Personal Blog Template" />
     <meta property="og:description" content="This is meta description" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="" />
     <meta property="og:updated_time" content="2020-03-15T15:40:24+06:00" />
+   
 </head>

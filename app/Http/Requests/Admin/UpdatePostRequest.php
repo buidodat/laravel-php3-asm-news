@@ -26,6 +26,7 @@ class UpdatePostRequest extends FormRequest
             'category_id'=>'required',
             'author_id'=>'required',
             'content'=>'required',
+            'description'=>'required',
             'image'=>'nullable|image|max:2048'
         ];
     }

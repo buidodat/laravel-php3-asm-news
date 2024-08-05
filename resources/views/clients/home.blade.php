@@ -10,8 +10,16 @@
 
 
 @section('content')
+@if (session()->has('error'))
+<div  style="text-align: center;  color:red; margin-top: 40px">
+    <span style=" padding:10px 5%; background-color: orange; border-radius: 5px">
+        {{ session()->get('error') }}
+    </span>
 
+</div>
+@endif
     <section class="section pb-0">
+
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 mb-5">

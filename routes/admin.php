@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')
@@ -15,4 +16,5 @@ Route::prefix('admin')
 
         Route::resource('categories', CategoryController::class);
         Route::resource('posts', PostController::class);
+        Route::resource('users', UserController::class);
     });

@@ -43,6 +43,7 @@ class PostController extends Controller
         $categories = DB::table('categories')
             ->selectRaw('categories.id, categories.name,categories.slug, count(category_id) as total_post')
             ->join('posts', 'categories.id', 'category_id')
+            ->where('categories.is_active',1)
             ->groupBy('category_id')
             ->get();
         $authors = Author::all();
@@ -60,7 +61,7 @@ class PostController extends Controller
     public function postInCategory(string $slug)
     {
         $category = Category::where('slug',$slug)->firstOrFail();
-
+        
         $posts = Post::query()
             ->with('author','tags',)
             ->where('category_id',$category->id)
